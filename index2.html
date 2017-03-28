@@ -1,0 +1,60 @@
+<!DOCTYPE>
+<html>
+<head><title>sf</title>
+<link rel="stylesheet" href="http://d1e24pw9mnwsl8.cloudfront.net/c/bootstrap/css/bootstrap.min.css"/>
+<body class="container" ng-app="myApp">
+<div ng-controller="myCtrl">
+	<table class="table table-bordered">
+	<tr>
+		<th>Name</th>
+		<th>Quantity</th>
+		<th>Cost</th>
+		<th>Total</th>
+	</tr>
+	<tr ng-repeat="item in cart.items">
+		<td> <input type="text" ng-model=item.name></td>
+		<td><input type="number" ng-model=item.qty></td>
+		<td><input type="number" ng-model=item.price></td>
+		<td><input type="number" value="{{item.total = item.qty*item.price}}"/></td>
+		<td><button class="btn btn-danger" ng-click="removeItem($index)">X</button></td>
+	</tr>
+	<tr>
+		<td><button class="btn btn-primary" ng-click="addItem()">+</button></td>
+		<td></td>
+		<td></td>
+		<td>Grand Total:</td>
+		<td>{{ total() }}</td>
+	</tr>
+	</table>
+</div>
+</body>
+<script src="angular.js"></script>
+<script>
+	var app=angular.module("myApp",[]);
+	app.controller("myCtrl",function($scope){
+		$scope.cart=
+		{
+		items:[
+			{name:'Tooth paste',qty:1,price:36}
+			]
+		};
+		
+		$scope.total=function(){
+			var total=0;
+			angular.forEach($scope.cart.items,function(item){
+				total+=item.qty*item.price;
+			})
+			return total;
+		}
+		
+		$scope.addItem=function(){
+			$scope.cart.items.push({
+				qty:1,price:0
+			});
+		}
+		$scope.removeItem=function(index){
+			$scope.cart.items.splice(index,1);
+		}
+	});
+</script>
+</html>
